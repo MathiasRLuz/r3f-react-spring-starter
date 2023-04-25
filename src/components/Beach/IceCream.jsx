@@ -33,7 +33,6 @@ export function IceCream(props) {
       tension: 800,
       friction: 20,
     },
-    pause: true,
     loop: true,
   });
 
