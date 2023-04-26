@@ -1,6 +1,7 @@
 import { useSpring } from "@react-spring/three";
 import Duck from "../Park/Duck";
 import { BeachBall } from "./BeachBall";
+import { myMaterials } from "../../utils/myMaterials";
 
 export const VolleyBall = (props) => {
   const { beachBallPosition } = useSpring({
@@ -36,8 +37,8 @@ export const VolleyBall = (props) => {
         position-y={ballY}
         position-z={8}
       />
-      <Duck color={"yellow"} position={[-8, 0, 8]} rotation-y={Math.PI / 2} position-y={duck1Jump} />
-      <Duck color={"pink"} position={[-3, 0, 8]} rotation-y={-Math.PI / 2} position-y={duck2Jump}/>
+      <Duck color={myMaterials.yellow.color} position={[-8, 0, 8]} rotation-y={Math.PI / 2} position-y={duck1Jump} />
+      <Duck color={myMaterials.pink.color} position={[-3, 0, 8]} rotation-y={-Math.PI / 2} position-y={duck2Jump}/>
     </group>
   );
 };

@@ -37,7 +37,7 @@ const Background = () => {
         scale={100}
         colorA="white"
         colorB="black"
-        alpha={0.1}
+        alpha={0.05}
         />
       </LayerMaterial>
     </mesh>
@@ -49,9 +49,10 @@ export const Experience = () => {
     <>
       <OrbitControls />
 
-      <ambientLight intensity={0.1} />
-      <directionalLight position={[0, 20, 20]} intensity={1} />
-
+      
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[4, 5, 6]} intensity={0.8} color={"#08f9b7"} />
+      <directionalLight position={[-4, 5, 6]} intensity={0.8} color={"#931cff"} />
       <Carousel />
       <ContactShadows scale={30} opacity={0.32} />
 

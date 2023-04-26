@@ -6,6 +6,7 @@ import { animated, useSpring } from "@react-spring/three";
 import { useGLTF } from "@react-three/drei";
 import React, { useRef } from "react";
 
+import { myMaterials } from "../../utils/myMaterials";
 import { Candy } from "./Candy";
 
 export default function Cannon(props) {
@@ -40,53 +41,43 @@ export default function Cannon(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group position={[0, 0, 0]}>
-        <mesh
-          geometry={nodes.cannonMobile_8angles_1.geometry}
-          material={nodes.cannonMobile_8angles_1.material}
-        />
-        <mesh
-          geometry={nodes.cannonMobile_8angles_2.geometry}
-          material={nodes.cannonMobile_8angles_2.material}
-        />
+        <mesh geometry={nodes.cannonMobile_8angles_1.geometry}>
+          <meshStandardMaterial {...myMaterials.brown} />
+        </mesh>
+        <mesh geometry={nodes.cannonMobile_8angles_2.geometry}>
+          <meshStandardMaterial {...myMaterials.brown} />
+        </mesh>
         <group position={[-0.22, 0.13, 0.26]}>
-          <mesh
-            geometry={nodes.wheel_backLeft_1.geometry}
-            material={nodes.wheel_backLeft_1.material}
-          />
-          <mesh
-            geometry={nodes.wheel_backLeft_2.geometry}
-            material={nodes.wheel_backLeft_2.material}
-          />
+          <mesh geometry={nodes.wheel_backLeft_1.geometry}>
+            <meshStandardMaterial {...myMaterials.metal} />
+          </mesh>
+          <mesh geometry={nodes.wheel_backLeft_2.geometry}>
+            <meshStandardMaterial {...myMaterials.brown} />
+          </mesh>
         </group>
         <group position={[0.22, 0.13, 0.26]} rotation={[Math.PI, 0, Math.PI]}>
-          <mesh
-            geometry={nodes.wheel_backLeft_1.geometry}
-            material={nodes.wheel_backLeft_1.material}
-          />
-          <mesh
-            geometry={nodes.wheel_backLeft_2.geometry}
-            material={nodes.wheel_backLeft_2.material}
-          />
+          <mesh geometry={nodes.wheel_backLeft_1.geometry}>
+            <meshStandardMaterial {...myMaterials.metal} />
+          </mesh>
+          <mesh geometry={nodes.wheel_backLeft_2.geometry}>
+            <meshStandardMaterial {...myMaterials.brown} />
+          </mesh>
         </group>
         <group position={[-0.22, 0.13, -0.2]}>
-          <mesh
-            geometry={nodes.wheel_backLeft_1.geometry}
-            material={nodes.wheel_backLeft_1.material}
-          />
-          <mesh
-            geometry={nodes.wheel_backLeft_2.geometry}
-            material={nodes.wheel_backLeft_2.material}
-          />
+          <mesh geometry={nodes.wheel_backLeft_1.geometry}>
+            <meshStandardMaterial {...myMaterials.metal} />
+          </mesh>
+          <mesh geometry={nodes.wheel_backLeft_2.geometry}>
+            <meshStandardMaterial {...myMaterials.brown} />
+          </mesh>
         </group>
         <group position={[0.22, 0.13, -0.2]} rotation={[Math.PI, 0, Math.PI]}>
-          <mesh
-            geometry={nodes.wheel_backLeft_1.geometry}
-            material={nodes.wheel_backLeft_1.material}
-          />
-          <mesh
-            geometry={nodes.wheel_backLeft_2.geometry}
-            material={nodes.wheel_backLeft_2.material}
-          />
+          <mesh geometry={nodes.wheel_backLeft_1.geometry}>
+            <meshStandardMaterial {...myMaterials.metal} />
+          </mesh>
+          <mesh geometry={nodes.wheel_backLeft_2.geometry}>
+            <meshStandardMaterial {...myMaterials.brown} />
+          </mesh>
         </group>
         <animated.mesh
           scale-x={cannonScale}

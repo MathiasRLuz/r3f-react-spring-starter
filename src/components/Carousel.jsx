@@ -13,20 +13,26 @@ import { Witch } from "./Haunted/Witch";
 import { FerrisWheel } from "./Park/FerrisWheel";
 import { Podium } from "./Park/Podium";
 import { ShipLight } from "./Park/ShipLight";
-import { Float } from "@react-three/drei";
+import { Float, Sparkles } from "@react-three/drei";
+import { CarouselModel } from "./CarouselModel";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Vector3 } from "three";
+import { CarouselLights } from "./CarouselLights";
 
-const STEP_DURATION = 5000;
-
+export const STEP_DURATION = 5000;
+const SPOTLIGHT_SPEED = 4;
 export const Carousel = (props) => {
-  const { carouselRotation } = useSpring({
+  const { carouselRotation, currentStep } = useSpring({
     from: {
       carouselRotation: 0,
+      currentStep: 0
     },
     to: [
-      { carouselRotation: -Math.PI / 2, delay: STEP_DURATION },
-      { carouselRotation: -Math.PI, delay: STEP_DURATION },
-      { carouselRotation: -1.5 * Math.PI, delay: STEP_DURATION },
-      { carouselRotation: -2 * Math.PI, delay: STEP_DURATION },
+      { carouselRotation: -Math.PI / 2, delay: STEP_DURATION, currentStep: 1 },
+      { carouselRotation: -Math.PI, delay: STEP_DURATION, currentStep: 2 },
+      { carouselRotation: -1.5 * Math.PI, delay: STEP_DURATION, currentStep: 3 },
+      { carouselRotation: -2 * Math.PI, delay: STEP_DURATION, currentStep: 0},
     ],
     config: {
       mass: 5,
@@ -37,22 +43,36 @@ export const Carousel = (props) => {
     immediate: true,
   });
 
+  const spotLightRef = useRef()
+
+  useFrame((_state, delta) => {
+    const posX = currentStep.to([0,1,2,3], [8,-6,0,-9]).get()
+    const posY = currentStep.to([0,1,2,3], [5,1,12,3]).get()
+    const posZ = currentStep.to([0,1,2,3], [12,10,5,8]).get()
+    const pos = new Vector3(posX,posY, posZ)
+    spotLightRef.current.position.lerp(pos, delta * SPOTLIGHT_SPEED)
+
+    const targetX = currentStep.to([0,1,2,3], [-5,0,0,3.5]).get()
+    const targetZ = currentStep.to([0,1,2,3], [5,5,5,8]).get()
+    const targetPos = new Vector3(targetX, 0, targetZ)
+    spotLightRef.current.target.position.lerp(targetPos, delta * SPOTLIGHT_SPEED)
+
+    spotLightRef.current.target.updateMatrixWorld();
+  })
+
   return (
     <>
+      <spotLight
+       ref={spotLightRef}
+       penumbra={0.4}
+       intensity={1.6}
+       angle={0.4}
+       position={[0, 10, 16]}
+      />
       <group rotation-y={-Math.PI / 4} position-y={-0.01}>
         <animated.group rotation-y={carouselRotation}>
-          <mesh position={[0, -2, 0]}>
-            <meshStandardMaterial color={"white"} />
-            <cylinderGeometry args={[12, 12, 4, 64]} />
-          </mesh>
-          <mesh scale={[1, 6, 24]} position-y={3}>
-            <boxGeometry />
-            <meshStandardMaterial color={"white"} />
-          </mesh>
-          <mesh scale={[24, 6, 1]} position-y={3}>
-            <boxGeometry />
-            <meshStandardMaterial color={"white"} />
-          </mesh>
+          <CarouselModel position={[0, -2, 0]}/>
+          <CarouselLights currentStepSpring={currentStep}/>
           {/* PARK */}
           <>
             <Podium position={[1, 0, 10]} rotation-y={Math.PI / 2} />
@@ -109,8 +129,16 @@ export const Carousel = (props) => {
                 rotation-y={Math.PI / 4}
               />
             </Float>
-            <Float speed={-1} floatIntensity={0.01}>
-              <Cauldron position={[-2.8, 1, -8]} scale={[1.9, 1.9, 1.9]} />
+            <Sparkles
+              count={42}
+              scale={3}
+              size={40}
+              speed={0.3}
+              color={"#77ff77"}
+              position={[-2.8, 2.4, -8]}
+            />
+            <Float speed={-1} floatIntensity={0.01} position={[-2.8, 1, -8]}>
+              <Cauldron scale={[1.9, 1.9, 1.9]} />
             </Float>
           </>
           {/* BEACH */}

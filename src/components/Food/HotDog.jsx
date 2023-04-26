@@ -8,6 +8,7 @@ import React, { useRef } from "react";
 import { Ketchup } from "./Ketchup";
 import { Mustard } from "./Mustard";
 
+import { myMaterials } from "../../utils/myMaterials";
 export function HotDog(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("./models/hot-dog/model.gltf");
@@ -76,24 +77,27 @@ export function HotDog(props) {
         <group position={[0, 0.14, 0]} rotation={[Math.PI, 0, -Math.PI]}>
           <animated.mesh
             geometry={nodes.Mesh_sauce.geometry}
-            material={materials.yellow}
             scale-y={mustardSauceScale}
             scale-z={mustardSauceScale}
-          />
+            >
+            <meshStandardMaterial {...myMaterials.yellow}/>
+          </animated.mesh>
           <animated.mesh
             geometry={nodes.Mesh_sauce_1.geometry}
-            material={materials.red}
             scale-y={ketchupSauceScale}
             scale-z={ketchupSauceScale}
-          />
+            >
+            <meshStandardMaterial {...myMaterials.red}/>
+          </animated.mesh>
         </group>
         <mesh
           geometry={nodes.sausage.geometry}
-          material={materials.brown}
           position={[-0.29, 0.09, 0]}
           rotation={[Math.PI / 2, 0, -Math.PI / 2]}
           scale={0.93}
-        />
+          >
+          <meshStandardMaterial {...myMaterials.brown}/>
+        </mesh>
       </mesh>
       <Ketchup rotation-x={ketchupRotationX} position={ketchupPosition} />
       <Mustard rotation-x={mustardRotationX} position={mustardPosition} />
